@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Senha</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        p {
+            font-size: 14px;
+            color: #606770;
+            margin-bottom: 25px;
+        }
+        #codeInput {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            text-align: center;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            text-transform: uppercase; /* Força as letras para maiúsculo */
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #1877f2;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #166fe5;
+        }
+        #resultado {
+            margin-top: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            min-height: 40px; /* Evita que a caixa mude de tamanho */
+        }
+        .sucesso {
+            color: #28a745; /* Verde */
+        }
+        .erro {
+            color: #dc3545; /* Vermelho */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gerador de Caractere</h1>
+        <p>Use a letra do papel (A-J) e o número da foto (1-10) para gerar o caractere.</p>
+
+        <input type="text" id="codeInput" maxlength="3">
+
+        <button onclick="gerarCaractere()">Gerar</button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        // O mapa com as letras da senha "millearhtur" embaralhadas nas combinações
+        const mapaDaSenha = {
+            'C7': 'm',
+            'F2': 'i',
+            'A9': 'l',
+            'H4': 'l',
+            'J1': 'e',
+            'D6': 'a',
+            'B10': 'r',
+            'G3': 'h',
+            'E8': 't',
+            'I5': 'u'
+        };
+
+        function gerarCaractere() {
+            const inputElement = document.getElementById('codeInput');
+            const resultadoElement = document.getElementById('resultado');
+
+            // Pega o valor, remove espaços e converte para maiúsculo
+            const codigo = inputElement.value.trim().toUpperCase();
+
+            if (mapaDaSenha.hasOwnProperty(codigo)) {
+                // Se o código existir no mapa, mostra o caractere
+                resultadoElement.textContent = mapaDaSenha [codigo];
+                resultadoElement.className = 'sucesso';
+            } else {
+                // Se não existir, mostra mensagem de erro
+                resultadoElement.textContent = 'Inválido';
+                resultadoElement.className = 'erro';
+            }
+
+            // Limpa o campo de entrada para a próxima tentativa
+            inputElement.value = '';
+            inputElement.focus();
+        }
+
+        // Permite que o usuário aperte "Enter" para gerar o caractere
+        document.getElementById('codeInput').addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                gerarCaractere();
+            }
+        });
+    </script>
+
+</body>
+</html>
